@@ -1,1 +1,1 @@
-# coat-notify-inbox
+# coar-notify-inbox
