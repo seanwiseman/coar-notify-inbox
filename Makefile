@@ -1,7 +1,10 @@
-.PHONY: install start start-services stop-services delete-db
+.PHONY: install install-dev start start-services stop-services delete-db
 
 install:
 	pip install -r requirements.txt
+
+install-dev:
+	pip install -r requirements-dev.txt
 
 start: start-services
 	uvicorn app:app --reload
