@@ -21,7 +21,6 @@ async def create_notification(notification_input: NotificationInput) -> str:
 
     notification = {
         "received_at": datetime.utcnow().isoformat(),
-        "id": str(uuid.uuid4()),
         **notification_input,
     }
 
