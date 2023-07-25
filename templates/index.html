@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Notifications</title>
+    <link href="{{ url_for('static', path='/css/main.css') }}" rel="stylesheet">
+</head>
+<body class="p-6">
+    <h1 class="text-3xl font-semibold mb-4">COAR Notify Inbox</h1>
+    <h3 class="text-xl font-semibold text-gray-400 mb-4">Notifications</h3>
+    <div class="space-y-4">
+        {% for notification in notifications %}
+        {% set received_at_object = notification.received_at|dateparse %}
+            <details class="border border-gray-200 rounded-lg p-4">
+                <summary class="cursor-pointer text-xl font-bold text-blue-600 outline-none">
+                    {{received_at_object.strftime('%Y-%m-%d %H:%M:%S')}} - {{notification.type}}
+                </summary>
+                <div class="flex space-x-4 mt-2">
+                    <div class="w-1/2 p-4 rounded-lg divide-y divide-gray-200">
+                        <p class="py-2"><span class="font-semibold">ID:</span> {{notification.id}}</p>
+                        <p class="py-2"><span class="font-semibold">Received at:</span> {{notification.received_at}}</p>
+                        <p class="py-2"><span class="font-semibold">Context:</span> {{notification['@context']}}</p>
+                        <p class="py-2"><span class="font-semibold">Type:</span> {{notification.type}}</p>
+                        <div class="py-2">
+                            <h3 class="text-lg font-semibold">Context</h3>
+                            <p><span class="font-semibold">ID:</span> {{notification.context.id}}</p>
+                        </div>
+                        <div class="py-2">
+                            <h3 class="text-lg font-semibold">Actor</h3>
+                            <p><span class="font-semibold">ID:</span> {{notification.actor.id}}</p>
+                            <p><span class="font-semibold">Type:</span> {{notification.actor.type}}</p>
+                            <p><span class="font-semibold">Inbox:</span> {{notification.actor.name}}</p>
+                        </div>
+                        <div class="py-2">
+                            <h3 class="text-lg font-semibold">Origin</h3>
+                            <p><span class="font-semibold">ID:</span> {{notification.origin.id}}</p>
+                            <p><span class="font-semibold">Type:</span> {{notification.origin.type}}</p>
+                            <p><span class="font-semibold">Inbox:</span> {{notification.origin.inbox}}</p>
+                        </div>
+                        <div class="py-2">
+                            <h3 class="text-lg font-semibold">Target</h3>
+                            <p><span class="font-semibold">ID:</span> {{notification.target.id}}</p>
+                            <p><span class="font-semibold">Type:</span> {{notification.target.type}}</p>
+                            <p><span class="font-semibold">Inbox:</span> {{notification.target.inbox}}</p>
+                        </div>
+                        <div class="py-2">
+                            <h3 class="text-lg font-semibold">Object</h3>
+                            <p><span class="font-semibold">ID:</span> {{notification.object.id}}</p>
+                            <p><span class="font-semibold">Type:</span> {{notification.object.type}}</p>
+                            <p><span class="font-semibold">IETF Cite As:</span> {{notification.object['ietf:cite-as']}}</p>
+                        </div>
+                    </div>
+
+                    <div class="w-1/2 bg-gray-100 p-4 rounded-lg overflow-scroll text-xs">
+                        <pre><code>{{ notification | tojson_pretty }}</code></pre>
+                    </div>
+                </div>
+            </details>
+        {% endfor %}
+    </div>
+</body>
+</html>
