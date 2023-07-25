@@ -59,6 +59,7 @@ Notification = TypedDict(
 NotificationInput = TypedDict(
     "NotificationInput",
     {
+        "id": str,
         "@context": list[str],
         "type": list[str],
         "origin": InboxResource,

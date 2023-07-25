@@ -1,3 +1,4 @@
+import os
 import json
 from datetime import datetime
 from fastapi import (
@@ -28,11 +29,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory=os.path.join(os.path.dirname(__file__), "static")), name="static")
 
 templates = Jinja2Templates(directory="templates")
-
-database = []
 
 
 def get_notification_links(notifications: list[Notification]) -> list[str]:
@@ -64,7 +63,7 @@ async def read_inbox_options():
 
 
 @app.get("/system/")
-async def read_preprints_meta() -> JSONResponse:
+async def read_system() -> JSONResponse:
     return JSONResponse(
         headers={"content-type": "application/ld+json"},
         content={
