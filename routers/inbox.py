@@ -11,7 +11,7 @@ from db.notifications import create_notification, get_notifications, get_notific
 
 router = APIRouter(
     prefix="/inbox",
-    tags=["items"],
+    tags=["inbox"],
 )
 
 INBOX_URL = "http://localhost:8000/inbox/"
@@ -21,12 +21,12 @@ def get_notification_links(notifications: list[Notification]) -> list[str]:
     return [f"{INBOX_URL}{notification['id']}" for notification in notifications]
 
 
-@router.options("/", tags=["inbox"])
+@router.options("/")
 async def read_inbox_options():
     return Response(headers={"Accept-Post": "application/ld+json"})
 
 
-@router.get("/", tags=["inbox"])
+@router.get("/")
 async def read_inbox() -> JSONResponse:
     notifications = await get_notifications()
     return JSONResponse(
