@@ -1,10 +1,9 @@
 import uuid
-from datetime import datetime
 
 from pymongo import DESCENDING
 
 from db import get_db, get_collection
-from db.models import Notification, NotificationInput
+from db.models import Notification
 
 
 COLLECTION_NAME = "notifications"
@@ -16,14 +15,8 @@ async def _get_collection():
     return await get_collection(db, COLLECTION_NAME)
 
 
-async def create_notification(notification_input: NotificationInput) -> str:
+async def create_notification(notification: Notification) -> str:
     collection = await _get_collection()
-
-    notification = {
-        "updated": datetime.utcnow().isoformat(),
-        **notification_input,
-    }
-
     await collection.insert_one(notification)
     return notification["id"]
 

@@ -9,6 +9,8 @@ def notification_id():
 @pytest.fixture
 def valid_notification_payload():
     return {
+            "id": "urn:uuid:049a719d-cb3a-4efe-ba82-77c68847dddf",
+            "updated": "2022-10-06T15:00:00.000000",
             "@context": [
                 "https://www.w3.org/ns/activitystreams",
                 "https://purl.org/coar/notify"
@@ -21,7 +23,6 @@ def valid_notification_payload():
             "context": {
                 "id": "https://doi.org/10.1101/2022.10.06.511170"
             },
-            "id": "urn:uuid:049a719d-cb3a-4efe-ba82-77c68847dddf",
             "object": {
                 "id": "https://sandbox.prereview.org/reviews/1224464",
                 "ietf:cite-as": "10.5072/zenodo.1224464",

@@ -5,7 +5,7 @@ from fastapi import (
 )
 from fastapi.responses import JSONResponse
 
-from db.models import Notification, NotificationInput
+from db.models import Notification
 from db.notifications import create_notification, get_notifications, get_notification
 
 
@@ -40,8 +40,8 @@ async def read_inbox() -> JSONResponse:
 
 
 @router.post("/")
-async def add_notification(notification_input: NotificationInput):
-    notification_id = await create_notification(notification_input)
+async def add_notification(notification: Notification):
+    notification_id = await create_notification(notification)
     return Response(
         headers={"Location": f"{INBOX_URL}{notification_id}"},
         status_code=201,

@@ -44,22 +44,8 @@ ContextObject = TypedDict(
 Notification = TypedDict(
     "Notification",
     {
+        "id": str,
         "updated": datetime,
-        "id": str,
-        "@context": list[str],
-        "type": list[str],
-        "origin": InboxResource,
-        "target": InboxResource,
-        "object": DocumentObject,
-        "actor": ActorResource,
-        "context": ContextObject,
-    },
-)
-
-NotificationInput = TypedDict(
-    "NotificationInput",
-    {
-        "id": str,
         "@context": list[str],
         "type": list[str],
         "origin": InboxResource,

@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import AsyncMock, patch
-from db.models import Notification, NotificationInput
+from db.models import Notification
 from db.notifications import create_notification, get_notification, get_notifications, delete_notification
 
 
@@ -10,7 +10,7 @@ from db.notifications import create_notification, get_notification, get_notifica
 async def test_create_notification(mock_get_collection, mock_get_db, valid_notification_payload):
     mock_get_collection.return_value = AsyncMock()
     mock_get_db.return_value = AsyncMock()
-    notification_input = NotificationInput(**valid_notification_payload)
+    notification_input = Notification(**valid_notification_payload)
 
     notification_id = await create_notification(notification_input)
 
