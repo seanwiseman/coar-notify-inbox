@@ -51,7 +51,7 @@ async def test_get_notifications(mock_get_collection, mock_get_db):
     mock_get_db.assert_called_once()
     mock_get_collection.assert_called_once_with(mock_get_db.return_value, 'notifications')
     mock_collection.find.assert_called_once_with({}, {"_id": 0})
-    mock_collection.find.return_value.sort.assert_called_once_with("received_at", -1)
+    mock_collection.find.return_value.sort.assert_called_once_with("updated", -1)
     mock_collection.find.return_value.sort.return_value.to_list.assert_called_once_with(length=100)
     assert notifications == []
 

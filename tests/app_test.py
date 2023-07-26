@@ -41,7 +41,7 @@ def test_add_notification(mock_create_notification, valid_notification_payload):
 @patch("routers.inbox.get_notification")
 def test_read_notification(mock_get_notification, valid_notification_payload):
     mock_notification = {
-        "received_at": "2022-10-06T15:00:00.000000",
+        "updated": "2022-10-06T15:00:00.000000",
         **valid_notification_payload
     }
 

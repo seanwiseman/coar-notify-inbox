@@ -44,7 +44,7 @@ ContextObject = TypedDict(
 Notification = TypedDict(
     "Notification",
     {
-        "received_at": datetime,
+        "updated": datetime,
         "id": str,
         "@context": list[str],
         "type": list[str],

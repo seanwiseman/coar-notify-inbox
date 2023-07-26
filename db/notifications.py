@@ -20,7 +20,7 @@ async def create_notification(notification_input: NotificationInput) -> str:
     collection = await _get_collection()
 
     notification = {
-        "received_at": datetime.utcnow().isoformat(),
+        "updated": datetime.utcnow().isoformat(),
         **notification_input,
     }
 
@@ -38,7 +38,7 @@ async def get_notifications() -> list[Notification]:
     collection = await _get_collection()
     notifications = await collection\
         .find({}, {"_id": 0})\
-        .sort("received_at", DESCENDING)\
+        .sort("updated", DESCENDING)\
         .to_list(length=PAGE_LIMIT)
     return notifications
 

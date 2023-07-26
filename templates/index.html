@@ -9,15 +9,15 @@
     <h3 class="text-xl font-semibold text-gray-400 mb-4">Notifications</h3>
     <div class="space-y-4">
         {% for notification in notifications %}
-        {% set received_at_object = notification.received_at|dateparse %}
+        {% set updated_object = notification.updated|dateparse %}
             <details class="border border-gray-200 rounded-lg p-4">
                 <summary class="cursor-pointer text-xl font-bold text-blue-600 outline-none">
-                    {{received_at_object.strftime('%Y-%m-%d %H:%M:%S')}} - {{notification.type}}
+                    {{updated_object.strftime('%Y-%m-%d %H:%M:%S')}} - {{notification.type}}
                 </summary>
                 <div class="flex space-x-4 mt-2">
                     <div class="w-1/2 p-4 rounded-lg divide-y divide-gray-200">
                         <p class="py-2"><span class="font-semibold">ID:</span> {{notification.id}}</p>
-                        <p class="py-2"><span class="font-semibold">Received at:</span> {{notification.received_at}}</p>
+                        <p class="py-2"><span class="font-semibold">Updated:</span> {{notification.updated}}</p>
                         <p class="py-2"><span class="font-semibold">Context:</span> {{notification['@context']}}</p>
                         <p class="py-2"><span class="font-semibold">Type:</span> {{notification.type}}</p>
                         <div class="py-2">
