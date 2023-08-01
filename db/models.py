@@ -27,6 +27,7 @@ DocumentObject = TypedDict(
     "DocumentObject",
     {
         "id": str,
+        "object": Optional[str],
         "type": Optional[list[str]],
         "ietf:cite-as": Optional[str],
     },
