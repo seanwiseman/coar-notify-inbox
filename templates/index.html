@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Notifications</title>
+    <title>COAR Notify Inbox</title>
     <link href="{{ url_for('static', path='/css/main.css') }}" rel="stylesheet">
 </head>
 <body class="p-6">
@@ -15,10 +15,9 @@
     <h3 class="text-xl font-semibold text-gray-400 mb-4">Notifications</h3>
     <div class="space-y-4">
         {% for notification in notifications %}
-        {% set updated_object = notification.updated|dateparse %}
             <details class="border border-gray-200 rounded-lg p-4">
                 <summary class="cursor-pointer text-xl font-bold text-blue-600 outline-none">
-                    {{updated_object.strftime('%Y-%m-%d %H:%M:%S')}} - {{notification.type}}
+                    {{notification.updated.strftime('%Y-%m-%d %H:%M:%S')}} - {{notification.type}}
                 </summary>
                 <div class="flex space-x-4 mt-2">
                     <div class="w-1/2 p-4 rounded-lg divide-y divide-gray-200">

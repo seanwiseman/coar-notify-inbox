@@ -6,29 +6,38 @@ from db import get_db, get_collection
 from db.models import Notification
 
 
-COLLECTION_NAME = "notifications"
+NOTIFICATIONS_COLLECTION_NAME = "notifications"
+NOTIFICATION_STATES_COLLECTION_NAME = "notification_states"
 PAGE_LIMIT = 100
 
 
-async def _get_collection():
+async def _get_notifications_collection():
     db = await get_db()
-    return await get_collection(db, COLLECTION_NAME)
+    return await get_collection(db, NOTIFICATIONS_COLLECTION_NAME)
+
+
+async def _get_notification_states_collection():
+    db = await get_db()
+    return await get_collection(db, NOTIFICATION_STATES_COLLECTION_NAME)
 
 
 async def create_notification(notification: Notification) -> str:
-    collection = await _get_collection()
-    await collection.insert_one(notification)
+    notification_collection = await _get_notifications_collection()
+    notification_states_collection = await _get_notification_states_collection()
+    await notification_collection.insert_one(notification)
+    await notification_states_collection.insert_one({"id": notification["id"], "read": False})
+
     return notification["id"]
 
 
 async def get_notification(notification_id: str) -> Notification:
-    collection = await _get_collection()
+    collection = await _get_notifications_collection()
     notification = await collection.find_one({"id": notification_id}, {"_id": 0})
     return notification
 
 
 async def get_notifications() -> list[Notification]:
-    collection = await _get_collection()
+    collection = await _get_notifications_collection()
     notifications = await collection\
         .find({}, {"_id": 0})\
         .sort("updated", DESCENDING)\
@@ -37,5 +46,5 @@ async def get_notifications() -> list[Notification]:
 
 
 async def delete_notification(notification_id: uuid.UUID) -> None:
-    collection = await _get_collection()
+    collection = await _get_notifications_collection()
     await collection.delete_one({"id": notification_id})

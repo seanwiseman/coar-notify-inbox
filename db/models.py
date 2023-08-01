@@ -55,3 +55,11 @@ Notification = TypedDict(
         "context": ContextObject,
     },
 )
+
+NotificationState = TypedDict(
+    "NotificationState",
+    {
+        "id": str,
+        "read": bool,
+    },
+)

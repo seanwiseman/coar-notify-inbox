@@ -14,9 +14,9 @@ async def test_create_notification(mock_get_collection, mock_get_db, valid_notif
 
     notification_id = await create_notification(notification_input)
 
-    mock_get_db.assert_called_once()
-    mock_get_collection.assert_called_once()
-    mock_get_collection.return_value.insert_one.assert_called_once()
+    assert mock_get_db.call_count == 2
+    assert mock_get_collection.call_count == 2
+    assert mock_get_collection.return_value.insert_one.call_count == 2
     assert isinstance(notification_id, str)
 
 
