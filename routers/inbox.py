@@ -7,6 +7,7 @@ from fastapi.responses import JSONResponse
 
 from db.models import Notification
 from db.notifications import create_notification, get_notifications, get_notification
+from validation.validate import validate_notification
 
 
 router = APIRouter(
@@ -41,6 +42,11 @@ async def read_inbox() -> JSONResponse:
 
 @router.post("/")
 async def add_notification(notification: Notification):
+    conforms, errors = validate_notification(notification)
+
+    if not conforms:
+        raise HTTPException(status_code=400, detail=errors)
+
     notification_id = await create_notification(notification)
     return Response(
         headers={"Location": f"{INBOX_URL}{notification_id}"},

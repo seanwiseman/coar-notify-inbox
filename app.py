@@ -32,7 +32,7 @@ app.include_router(inbox_router)
 @app.get("/")
 async def home(request: Request):
     def ppjson(value, indent=2):
-        return json.dumps(value, indent=indent)
+        return json.dumps({**value, "updated": value["updated"].isoformat()}, indent=indent)
 
     def dateparse(value):
         return datetime.fromisoformat(value)
