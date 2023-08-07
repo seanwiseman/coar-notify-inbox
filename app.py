@@ -2,6 +2,7 @@ from datetime import datetime
 import os
 import json
 
+from dotenv import load_dotenv
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -10,6 +11,8 @@ from fastapi.templating import Jinja2Templates
 from db.notifications import get_notifications
 from routers import inbox_router
 
+
+load_dotenv()
 
 origin_white_list = ["*"]
 
@@ -21,7 +24,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=origin_white_list,
     allow_credentials=True,
-    allow_methods=["POST", "GET", "PUT", "DELETE", "OPTIONS"],
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 
