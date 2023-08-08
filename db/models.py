@@ -1,66 +1,47 @@
 from datetime import datetime
-from typing import Optional
-from typing_extensions import TypedDict
+from typing import Optional, List
+from pydantic import BaseModel, Field
 
 
-ActorResource = TypedDict(
-    "ActorResource",
-    {
-        "id": str,
-        "type": str,
-        "name": str,
-    },
-)
+class ActorResource(BaseModel):
+    id: str
+    type: str
+    name: str
 
 
-InboxResource = TypedDict(
-    "InboxResource",
-    {
-        "id": str,
-        "type": str,
-        "inbox": str,
-    },
-)
+class InboxResource(BaseModel):
+    id: str
+    type: str
+    inbox: str
 
 
-DocumentObject = TypedDict(
-    "DocumentObject",
-    {
-        "id": str,
-        "object": Optional[str],
-        "type": Optional[list[str]],
-        "ietf:cite-as": Optional[str],
-    },
-)
+class DocumentObject(BaseModel):
+    id: str
+    object: Optional[str] = None
+    type: Optional[List[str]] = None
+    ietf_cite_as: Optional[str] = Field(alias="ietf:cite-as", default=None)
 
 
-ContextObject = TypedDict(
-    "ContextObject",
-    {
-        "id": str,
-    },
-)
+class ContextObject(BaseModel):
+    id: str
 
 
-Notification = TypedDict(
-    "Notification",
-    {
-        "id": str,
-        "updated": datetime,
-        "@context": list[str],
-        "type": list[str],
-        "origin": InboxResource,
-        "target": InboxResource,
-        "object": DocumentObject,
-        "actor": ActorResource,
-        "context": ContextObject,
-    },
-)
+class Notification(BaseModel):
+    id: str
+    updated: Optional[datetime] = Field(default=datetime.utcnow())
+    at_context: List[str] = Field(alias="@context")
+    type: List[str]
+    origin: InboxResource
+    target: InboxResource
+    object: DocumentObject
+    actor: ActorResource
+    context: ContextObject
 
-NotificationState = TypedDict(
-    "NotificationState",
-    {
-        "id": str,
-        "read": bool,
-    },
-)
+    class Config:
+        use_alias = True
+        populate_by_name = True
+
+
+class NotificationState(BaseModel):
+    id: str
+    read: bool

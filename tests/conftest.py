@@ -10,7 +10,6 @@ def notification_id():
 def valid_notification_payload():
     return {
             "id": "urn:uuid:049a719d-cb3a-4efe-ba82-77c68847dddf",
-            "updated": "2023-07-26T10:48:29Z",
             "@context": [
                 "https://www.w3.org/ns/activitystreams",
                 "https://purl.org/coar/notify"

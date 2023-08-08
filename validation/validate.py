@@ -5,7 +5,7 @@ from db.models import Notification
 
 def validate_notification(notification: Notification) -> tuple[bool, list[dict]]:
     validate_payload = {
-        **notification,
-        "updated": notification["updated"].isoformat(),
+        **notification.model_dump(by_alias=True),
+        "updated": notification.updated.isoformat(),
     }
     return validate(validate_payload)

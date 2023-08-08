@@ -24,10 +24,10 @@ async def _get_notification_states_collection():
 async def create_notification(notification: Notification) -> str:
     notification_collection = await _get_notifications_collection()
     notification_states_collection = await _get_notification_states_collection()
-    await notification_collection.insert_one(notification)
-    await notification_states_collection.insert_one({"id": notification["id"], "read": False})
+    await notification_collection.insert_one(notification.model_dump(by_alias=True))
+    await notification_states_collection.insert_one({"id": notification.id, "read": False})
 
-    return notification["id"]
+    return notification.id
 
 
 async def get_notification(notification_id: str) -> Notification:
