@@ -1,6 +1,7 @@
 from fastapi import (
     APIRouter,
     HTTPException,
+    Request,
     Response,
 )
 from fastapi.responses import JSONResponse
@@ -15,11 +16,13 @@ router = APIRouter(
     tags=["inbox"],
 )
 
-INBOX_URL = "http://localhost:8000/inbox/"
+
+def get_inbox_url(request: Request) -> str:
+    return str(request.base_url) + "inbox/"
 
 
-def get_notification_links(notifications: list[Notification]) -> list[str]:
-    return [f"{INBOX_URL}{notification['id']}" for notification in notifications]
+def get_notification_links(notifications: list[Notification], base_url: str) -> list[str]:
+    return [f"{base_url}{notification['id']}" for notification in notifications]
 
 
 @router.options("/")
@@ -28,20 +31,22 @@ async def read_inbox_options():
 
 
 @router.get("/")
-async def read_inbox() -> JSONResponse:
+async def read_inbox(request: Request) -> JSONResponse:
+    inbox_url = get_inbox_url(request)
     notifications = await get_notifications()
+
     return JSONResponse(
         headers={"content-type": "application/ld+json"},
         content={
             "@context": "http://www.w3.org/ns/ldp",
-            "@id": INBOX_URL,
-            "contains": get_notification_links(notifications)
+            "@id": inbox_url,
+            "contains": get_notification_links(notifications, base_url=inbox_url),
         },
     )
 
 
 @router.post("/")
-async def add_notification(notification: Notification):
+async def add_notification(notification: Notification, request: Request):
     conforms, errors = validate_notification(notification)
 
     if not conforms:
@@ -49,7 +54,7 @@ async def add_notification(notification: Notification):
 
     notification_id = await create_notification(notification)
     return Response(
-        headers={"Location": f"{INBOX_URL}{notification_id}"},
+        headers={"Location": f"{get_inbox_url(request)}{notification_id}"},
         status_code=201,
     )
 

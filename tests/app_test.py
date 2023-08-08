@@ -2,7 +2,7 @@ from fastapi.testclient import TestClient
 from unittest.mock import patch
 
 from app import app
-from routers.inbox import INBOX_URL
+
 
 client = TestClient(app)
 
@@ -23,7 +23,7 @@ def test_read_inbox(mock_get_notifications):
     assert response.status_code == 200
     assert response.json() == {
         "@context": "http://www.w3.org/ns/ldp",
-        "@id": INBOX_URL,
+        "@id": "http://testserver/inbox/",
         "contains": [],
     }
 
@@ -35,7 +35,8 @@ def test_add_notification(mock_create_notification, valid_notification_payload):
     response = client.post("/inbox/", json=valid_notification_payload)
 
     assert response.status_code == 201
-    assert response.headers["Location"] == f"{INBOX_URL}{valid_notification_payload['id']}"
+    assert (response.headers["Location"] ==
+            f"http://testserver/inbox/{valid_notification_payload['id']}")
 
 
 @patch("routers.inbox.get_notification")
