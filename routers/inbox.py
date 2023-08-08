@@ -1,6 +1,7 @@
 import json
 from fastapi import (
     APIRouter,
+    Body,
     HTTPException,
     Request,
     Response,
@@ -47,13 +48,13 @@ async def read_inbox(request: Request) -> JSONResponse:
 
 
 @router.post("/")
-async def add_notification(notification: Notification, request: Request):
-    conforms, errors = validate_notification(notification)
+async def add_notification(request: Request, payload: dict = Body(...)):
+    conforms, errors = validate_notification(payload)
 
     if not conforms:
         raise HTTPException(status_code=400, detail=errors)
 
-    notification_id = await create_notification(notification)
+    notification_id = await create_notification(Notification(**payload))
     return Response(
         headers={"Location": f"{get_inbox_url(request)}{notification_id}"},
         status_code=201,

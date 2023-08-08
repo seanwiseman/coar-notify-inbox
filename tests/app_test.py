@@ -3,7 +3,6 @@ from unittest.mock import patch
 
 from app import app
 
-
 client = TestClient(app)
 
 
@@ -52,3 +51,24 @@ def test_read_notification(mock_get_notification, valid_notification_payload):
 
     assert response.status_code == 200
     assert response.json() == mock_notification
+
+
+@patch("routers.inbox.create_notification")
+def test_add_notification_validation_failure(mock_create_notification,
+                                             invalid_notification_payload):
+    mock_create_notification.return_value = invalid_notification_payload["id"]
+
+    response = client.post("/inbox/", json=invalid_notification_payload)
+
+    assert response.status_code == 400
+    assert response.json() == {
+        "detail": [
+            {
+                "focus_node": "<https://bioxriv.org/",
+                "message": "Less than 1 values on <https://bioxriv.org/-ldp:inbox",
+                "result_path": "ldp:inbox",
+                "severity": "sh:Violation",
+                "source_shape": "ex:InboxShape"
+            }
+        ]
+    }
