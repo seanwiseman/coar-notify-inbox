@@ -1,3 +1,4 @@
+import json
 from fastapi import (
     APIRouter,
     HTTPException,
@@ -64,9 +65,9 @@ async def read_notification(notification_id: str):
     notification = await get_notification(notification_id)
 
     if notification:
-        return JSONResponse(
+        return Response(
             headers={"content-type": "application/ld+json"},
-            content=notification,
+            content=json.dumps(notification, default=str),
         )
 
     raise HTTPException(status_code=404, detail="Notification not found")
