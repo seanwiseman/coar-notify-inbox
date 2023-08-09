@@ -4,7 +4,7 @@ from config import settings
 
 
 async def get_db():
-    client = AsyncIOMotorClient(settings.db_uri)
+    client = AsyncIOMotorClient(settings.mongo_db_uri)
     return client.notification_store
 
 
