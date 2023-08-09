@@ -1,25 +1,32 @@
 from datetime import datetime
-from typing import Optional, List
+from typing import Optional, Union
 from pydantic import BaseModel, Field
 
 
 class ActorResource(BaseModel):
     id: str
     type: str
-    name: str
+    name: Union[list[str], str]
 
 
 class InboxResource(BaseModel):
     id: str
-    type: str
     inbox: str
+    type: Union[list[str], str]
+
+
+class UrlObject(BaseModel):
+    id: str
+    media_type: Optional[str] = Field(alias="mediaType", default=None)
+    type: Optional[Union[list[str], str]] = None
 
 
 class DocumentObject(BaseModel):
     id: str
     object: Optional[str] = None
-    type: Optional[List[str]] = None
+    type: Union[list[str], str] = None
     ietf_cite_as: Optional[str] = Field(alias="ietf:cite-as", default=None)
+    url: Optional[UrlObject] = None
 
 
 class ContextObject(BaseModel):
@@ -29,13 +36,14 @@ class ContextObject(BaseModel):
 class Notification(BaseModel):
     id: str
     updated: Optional[datetime] = Field(default_factory=datetime.utcnow)
-    at_context: List[str] = Field(alias="@context")
-    type: List[str]
+    at_context: list[str] = Field(alias="@context")
+    type: Union[list[str], str]
     origin: InboxResource
     target: InboxResource
     object: DocumentObject
     actor: ActorResource
-    context: ContextObject
+    context: Optional[ContextObject] = None
+    in_reply_to: Optional[str] = Field(alias="inReplyTo", default=None)
 
     class Config:
         use_alias = True

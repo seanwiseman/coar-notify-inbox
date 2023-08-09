@@ -20,3 +20,8 @@ def test_notification_handles_ietf_cite_as_alias(valid_notification_payload):
     notification = Notification(**valid_notification_payload)
     assert (notification.object.ietf_cite_as ==
             valid_notification_payload["object"]["ietf:cite-as"])
+
+
+def test_notification_handles_valid_offer_review_payload(valid_offer_review_payload):
+    notification = Notification(**valid_offer_review_payload)
+    assert notification.id

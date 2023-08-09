@@ -33,3 +33,9 @@ def test_validate_notification_raises_on_missing_type(valid_notification_payload
     assert errors
     assert len(errors) == 1
     assert errors[0]["message"] == "Missing notification type."
+
+
+def test_validate_offer_review_payload(valid_offer_review_payload):
+    is_valid, errors = validate_notification(valid_offer_review_payload)
+    assert is_valid
+    assert not errors
