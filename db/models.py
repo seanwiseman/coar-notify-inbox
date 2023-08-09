@@ -28,7 +28,7 @@ class ContextObject(BaseModel):
 
 class Notification(BaseModel):
     id: str
-    updated: Optional[datetime] = Field(default=datetime.utcnow())
+    updated: Optional[datetime] = Field(default_factory=datetime.utcnow)
     at_context: List[str] = Field(alias="@context")
     type: List[str]
     origin: InboxResource
