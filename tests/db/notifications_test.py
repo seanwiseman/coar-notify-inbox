@@ -1,7 +1,14 @@
-import pytest
 from unittest.mock import AsyncMock, patch
+
+import pytest
+
 from db.models import Notification
-from db.notifications import create_notification, get_notification, get_notifications, delete_notification
+from db.notifications import (
+    create_notification,
+    get_notification,
+    get_notifications,
+    delete_notification,
+)
 
 
 @patch('db.notifications.get_db')

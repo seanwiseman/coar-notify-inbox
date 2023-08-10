@@ -8,7 +8,5 @@ async def get_db():
     return client.notification_store
 
 
-async def get_collection(db, collection_name: str):
-    return db[collection_name]
-
-
+async def get_collection(database, collection_name: str):
+    return database[collection_name]

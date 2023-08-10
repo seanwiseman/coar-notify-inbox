@@ -12,13 +12,13 @@ PAGE_LIMIT = 100
 
 
 async def _get_notifications_collection():
-    db = await get_db()
-    return await get_collection(db, NOTIFICATIONS_COLLECTION_NAME)
+    database = await get_db()
+    return await get_collection(database, NOTIFICATIONS_COLLECTION_NAME)
 
 
 async def _get_notification_states_collection():
-    db = await get_db()
-    return await get_collection(db, NOTIFICATION_STATES_COLLECTION_NAME)
+    database = await get_db()
+    return await get_collection(database, NOTIFICATION_STATES_COLLECTION_NAME)
 
 
 async def create_notification(notification: Notification) -> str:

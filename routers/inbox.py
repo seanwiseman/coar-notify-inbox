@@ -51,7 +51,8 @@ async def read_inbox(request: Request) -> JSONResponse:
 
 
 @router.post("/")
-async def add_notification(request: Request, background_tasks: BackgroundTasks, payload: dict = Body(...)):
+async def add_notification(request: Request, background_tasks: BackgroundTasks,
+                           payload: dict = Body(...)):
     conforms, errors = validate_notification(payload)
 
     if not conforms:

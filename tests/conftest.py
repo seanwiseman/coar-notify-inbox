@@ -102,11 +102,11 @@ def valid_offer_review_payload():
         },
         "id": "urn:uuid:0370c0fb-bb78-4a9b-87f5-bed307a509dd",
         "object": {
-            "id": "https://research-organisation.org/repository/preprint/201203/421/",
+            "id": "https://research.org/repository/preprint/201203/421/",
             "ietf:cite-as": "https://doi.org/10.5555/12345680",
             "type": "sorg:AboutPage",
             "url": {
-                "id": "https://research-organisation.org/repository/preprint/201203/421/content.pdf",
+                "id": "https://research.org/repository/preprint/201203/421/content.pdf",
                 "mediaType": "application/pdf",
                 "type": [
                     "Article",
@@ -115,8 +115,8 @@ def valid_offer_review_payload():
             }
         },
         "origin": {
-            "id": "https://research-organisation.org/repository",
-            "inbox": "https://research-organisation.org/inbox/",
+            "id": "https://research.org/repository",
+            "inbox": "https://research.org/inbox/",
             "type": "Service"
         },
         "target": {
