@@ -72,7 +72,7 @@ async def add_notification(request: Request, background_tasks: BackgroundTasks,
     )
 
 
-@router.get("/{notification_id}/", response_model=Notification)
+@router.get("/{notification_id}", response_model=Notification)
 async def read_notification(notification_id: str):
     notification = await get_notification(notification_id)
 
