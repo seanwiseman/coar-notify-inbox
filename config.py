@@ -2,6 +2,8 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
+    allowed_admin_origins: set[str] = set()
+    allowed_origins: set[str] = set()
     mongo_db_uri: str = ""
     on_receive_notification_webhook_url: str = ""
 

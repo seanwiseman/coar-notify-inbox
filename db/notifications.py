@@ -5,10 +5,13 @@ from pymongo import DESCENDING
 from db import get_db, get_collection
 from db.models import Notification
 
-
 NOTIFICATIONS_COLLECTION_NAME = "notifications"
 NOTIFICATION_STATES_COLLECTION_NAME = "notification_states"
 PAGE_LIMIT = 100
+
+
+class FailedToUpdateNotificationState(Exception):
+    pass
 
 
 async def _get_notifications_collection():
@@ -38,9 +41,9 @@ async def get_notification(notification_id: str) -> Notification:
 
 async def get_notifications() -> list[Notification]:
     collection = await _get_notifications_collection()
-    notifications = await collection\
-        .find({}, {"_id": 0})\
-        .sort("updated", DESCENDING)\
+    notifications = await collection \
+        .find({}, {"_id": 0}) \
+        .sort("updated", DESCENDING) \
         .to_list(length=PAGE_LIMIT)
     return notifications
 
@@ -48,3 +51,11 @@ async def get_notifications() -> list[Notification]:
 async def delete_notification(notification_id: uuid.UUID) -> None:
     collection = await _get_notifications_collection()
     await collection.delete_one({"id": notification_id})
+
+
+async def update_notification_state(notification_id: str, read: bool) -> None:
+    collection = await _get_notification_states_collection()
+    result = collection.update_one({"id": notification_id}, {"$set": {"read": read}})
+    if result.modified_count == 0:
+        raise FailedToUpdateNotificationState(f"Could not update notification "
+                                              f"state for notification {notification_id}")

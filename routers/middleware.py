@@ -1,7 +1,7 @@
+from functools import wraps
 import logging
 
 from fastapi import HTTPException, Request
-from functools import wraps
 
 from config import settings
 

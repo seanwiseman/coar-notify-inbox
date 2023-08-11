@@ -7,11 +7,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
+from config import settings
 from db.notifications import get_notifications
-from routers import inbox_router
+from routers import inbox_router, notification_state_router
 
-
-origin_white_list = ["*"]
 
 templates = Jinja2Templates(directory="templates")
 
@@ -19,7 +18,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origin_white_list,
+    allow_origins=settings.allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -27,7 +26,9 @@ app.add_middleware(
 
 app.mount("/static",
           StaticFiles(directory=os.path.join(os.path.dirname(__file__), "static")), name="static")
+
 app.include_router(inbox_router)
+app.include_router(notification_state_router)
 
 
 @app.get("/")

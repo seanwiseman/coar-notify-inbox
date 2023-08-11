@@ -53,3 +53,7 @@ class Notification(BaseModel):
 class NotificationState(BaseModel):
     id: str
     read: bool
+
+
+class NotificationStateUpdatePayload(BaseModel):
+    read: bool

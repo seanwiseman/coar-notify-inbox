@@ -8,7 +8,7 @@ from routers.middleware import ensure_client_is_admin
 
 @patch("routers.middleware.settings")
 def test_ensure_client_is_admin_allows_ip_if_wildcard_configured(mock_settings):
-    mock_settings.allowed_admin_origins = set("*")
+    mock_settings.allowed_admin_origins = {"*"}
 
     mock_request = Mock()
     mock_request.client.host = "127.0.0.1"
@@ -18,7 +18,7 @@ def test_ensure_client_is_admin_allows_ip_if_wildcard_configured(mock_settings):
 
 @patch("routers.middleware.settings")
 def test_ensure_client_is_admin_allows_admin_ip(mock_settings):
-    mock_settings.allowed_admin_origins = set("127.0.0.1")
+    mock_settings.allowed_admin_origins = {"127.0.0.1"}
 
     mock_request = Mock()
     mock_request.client.host = "127.0.0.1"
@@ -28,7 +28,7 @@ def test_ensure_client_is_admin_allows_admin_ip(mock_settings):
 
 @patch("routers.middleware.settings")
 def test_ensure_client_is_admin_rejects_non_admin_ip(mock_settings):
-    mock_settings.allowed_admin_origins = set("127.0.0.1")
+    mock_settings.allowed_admin_origins = {"127.0.0.1"}
 
     mock_request = Mock()
     mock_request.client.host = "10.0.0.1"
