@@ -2,12 +2,8 @@ from unittest.mock import patch
 
 from fastapi.testclient import TestClient
 
-from app import app
 
-client = TestClient(app)
-
-
-def test_read_inbox_options():
+def test_read_inbox_options(client: TestClient):
     response = client.options("/inbox/")
 
     assert response.status_code == 200
@@ -15,7 +11,7 @@ def test_read_inbox_options():
 
 
 @patch("routers.inbox.get_notifications")
-def test_read_inbox(mock_get_notifications):
+def test_read_inbox(mock_get_notifications, client: TestClient):
     mock_get_notifications.return_value = []
 
     response = client.get("/inbox/")
@@ -29,7 +25,9 @@ def test_read_inbox(mock_get_notifications):
 
 
 @patch("routers.inbox.create_notification")
-def test_add_notification(mock_create_notification, valid_notification_payload):
+def test_add_notification(mock_create_notification,
+                          valid_notification_payload: dict,
+                          client: TestClient):
     mock_create_notification.return_value = valid_notification_payload["id"]
 
     response = client.post("/inbox/", json=valid_notification_payload)
@@ -40,7 +38,9 @@ def test_add_notification(mock_create_notification, valid_notification_payload):
 
 
 @patch("routers.inbox.get_notification")
-def test_read_notification(mock_get_notification, valid_notification_payload):
+def test_read_notification(mock_get_notification,
+                           valid_notification_payload: dict,
+                           client: TestClient):
     mock_notification = {
         "updated": "2022-10-06T15:00:00.000000",
         **valid_notification_payload
@@ -56,7 +56,8 @@ def test_read_notification(mock_get_notification, valid_notification_payload):
 
 @patch("routers.inbox.create_notification")
 def test_add_notification_validation_failure(mock_create_notification,
-                                             invalid_notification_payload):
+                                             invalid_notification_payload: dict,
+                                             client: TestClient):
     mock_create_notification.return_value = invalid_notification_payload["id"]
 
     response = client.post("/inbox/", json=invalid_notification_payload)
