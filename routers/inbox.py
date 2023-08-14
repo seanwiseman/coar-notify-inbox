@@ -9,7 +9,7 @@ from fastapi import (
 )
 from fastapi.responses import JSONResponse
 
-from config import settings
+from config import get_settings
 from db.models import Notification
 from db.notifications import create_notification, get_notifications, get_notification
 from tasks.webhooks import send_notification_to_webhook
@@ -62,9 +62,12 @@ async def add_notification(request: Request, background_tasks: BackgroundTasks,
 
     notification_id = await create_notification(notification)
 
-    if notification_id and settings.on_receive_notification_webhook_url:
-        background_tasks.add_task(send_notification_to_webhook,
-                                  notification, settings.on_receive_notification_webhook_url)
+    if notification_id and get_settings().on_receive_notification_webhook_url:
+        background_tasks.add_task(
+            send_notification_to_webhook,
+            notification,
+            get_settings().on_receive_notification_webhook_url,
+        )
 
     return Response(
         headers={"Location": f"{get_inbox_url(request)}{notification_id}"},
