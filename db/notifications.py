@@ -10,7 +10,7 @@ NOTIFICATION_STATES_COLLECTION_NAME = "notification_states"
 PAGE_LIMIT = 100
 
 
-class FailedToUpdateNotificationState(Exception):
+class FailedToFindNotificationState(Exception):
     pass
 
 
@@ -55,7 +55,8 @@ async def delete_notification(notification_id: uuid.UUID) -> None:
 
 async def update_notification_state(notification_id: str, read: bool) -> None:
     collection = await _get_notification_states_collection()
-    result = collection.update_one({"id": notification_id}, {"$set": {"read": read}})
-    if result.modified_count == 0:
-        raise FailedToUpdateNotificationState(f"Could not update notification "
-                                              f"state for notification {notification_id}")
+    result = await collection.update_one({"id": notification_id}, {"$set": {"read": read}})
+
+    if result.matched_count == 0:
+        raise FailedToFindNotificationState(f"Could not find notification state for "
+                                            f"notification {notification_id}")
