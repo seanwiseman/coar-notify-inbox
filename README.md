@@ -66,6 +66,40 @@ This will cause the inbox to send a POST request to the provided URL with the no
 
 ### Notification state management
 
-WIP
+When you receive a notification, you may want to keep track of the state of the notification. For example, you may want 
+to mark a notification as read once it has been processed. To do this, you can use `notification_states` as a seperate 
+state manager for your notifications. This is a simple key-value store that allows you to store a `read` state against a 
+notification id. **Note this is completely optional, you can use your own state manager if you wish.**
 
 
+#### To mark a notification as read
+````
+PATCH /notification_states/{notification_id}
+Content-Type: application/json
+
+{
+    "read": true
+}
+````
+
+#### To mark a notification as unread
+````
+PATCH /notification_states/{notification_id}
+Content-Type: application/json
+
+{
+    "read": false
+}
+````
+
+#### To get your unread notifications ids
+```
+GET http://127.0.0.1:8000/notification_states?read=false
+Accept: application/json
+```
+
+#### To get your read notifications ids
+```
+GET http://127.0.0.1:8000/notification_states?read=true
+Accept: application/json
+```
