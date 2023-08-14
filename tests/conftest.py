@@ -1,4 +1,36 @@
+from functools import wraps
+import os
+
+from fastapi import Request
+from fastapi.testclient import TestClient
 import pytest
+
+from app import create_app
+from config import get_settings
+
+
+@pytest.fixture(scope="function")
+def admin_client():
+    get_settings.cache_clear()
+    os.environ["ALLOWED_ADMIN_ORIGINS"] = '["*"]'
+    return TestClient(create_app())
+
+
+@pytest.fixture(scope="function")
+def client():
+    return TestClient(create_app())
+
+
+@pytest.fixture
+def mock_admin_only():
+    def admin_only(func):
+        @wraps(func)
+        async def wrapper(request: Request, *args, **kwargs):
+            return await func(request, *args, **kwargs)
+
+        return wrapper
+
+    return admin_only
 
 
 @pytest.fixture
