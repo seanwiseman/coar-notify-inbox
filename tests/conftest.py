@@ -18,6 +18,8 @@ def admin_client():
 
 @pytest.fixture(scope="function")
 def client():
+    get_settings.cache_clear()
+    os.environ["ALLOWED_ADMIN_ORIGINS"] = "[]"
     return TestClient(create_app())
 
 
