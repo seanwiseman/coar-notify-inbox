@@ -9,18 +9,19 @@ class BaseDBAdapter(ABC):
         pass
 
     @abstractmethod
-    async def find_one(self, collection_name: str, filter: dict, projection: dict = None) -> Union[dict, None]:
+    async def find_one(self, collection_name: str, db_filter: dict,
+                       projection: dict = None) -> Union[dict, None]:
         pass
 
     @abstractmethod
-    async def find(self, collection_name: str, filter: dict, projection: dict = None) -> list[dict]:
+    async def find(self, collection_name: str, db_filter: dict,
+                   projection: dict = None) -> list[dict]:
         pass
 
     @abstractmethod
-    async def update_one(self, collection_name: str, filter: dict, update_data: dict) -> int:
-        """Returns the number of matched documents."""
+    async def update_one(self, collection_name: str, db_filter: dict, update_data: dict) -> int:
         pass
 
     @abstractmethod
-    async def delete_one(self, collection_name: str, filter: dict):
+    async def delete_one(self, collection_name: str, db_filter: dict):
         pass
