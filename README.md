@@ -1,5 +1,9 @@
 # coar-notify-inbox
 
+A basic implementation of an LDN inbox intended for COAR Notify developments purposes written in Python using FastAPI.
+
+There is an instance of this inbox running at https://coar-notify-inbox.fly.dev .
+
 ## Running the app
 
 ### Create a Python virtual environment
