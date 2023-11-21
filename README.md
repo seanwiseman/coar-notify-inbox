@@ -20,6 +20,11 @@ make install
 ```bash
 make start
 ```
+----
+### Note on running the app outside the local Docker-compose environment
+The app is configured to use MongoDB as its data layer. By default, it will attempt to connect to a MongoDB instance spun up
+by the local Docker-compose environment. If you want to run the app outside the local Docker-compose environment, you will 
+need to provide the connection details for your MongoDB instance as environment variables when starting the app in the `.env` file under `MONGO_DB_URI`.
 
 ----
 
