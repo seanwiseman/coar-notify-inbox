@@ -41,7 +41,7 @@ class Notification(BaseModel):
     origin: InboxResource
     target: InboxResource
     object: DocumentObject
-    actor: ActorResource
+    actor: Optional[ActorResource] = None
     context: Optional[ContextObject] = None
     in_reply_to: Optional[str] = Field(alias="inReplyTo", default=None)
 
