@@ -31,6 +31,8 @@ class DocumentObject(BaseModel):
 
 class ContextObject(BaseModel):
     id: str
+    ietf_cite_as: Optional[str] = Field(alias="ietf:cite-as", default=None)
+    type: Union[list[str], str] = None
 
 
 class Notification(BaseModel):
