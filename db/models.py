@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field
 
 class ActorResource(BaseModel):
     id: str
-    type: str
+    type: Union[list[str], str]
     name: Union[list[str], str]
 
 
