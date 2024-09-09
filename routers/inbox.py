@@ -30,12 +30,14 @@ def get_notification_links(notifications: list[Notification], base_url: str) -> 
     return [f"{base_url}{notification['id']}" for notification in notifications]
 
 
-@router.options("/")
+@router.options("/", include_in_schema=False)
+@router.options("")
 async def read_inbox_options():
     return Response(headers={"Accept-Post": "application/ld+json"})
 
 
-@router.get("/")
+@router.get("/", include_in_schema=False)
+@router.get("")
 async def read_inbox(request: Request) -> JSONResponse:
     inbox_url = get_inbox_url(request)
     notifications = await get_notifications()
@@ -50,7 +52,8 @@ async def read_inbox(request: Request) -> JSONResponse:
     )
 
 
-@router.post("/")
+@router.post("/", include_in_schema=False)
+@router.post("")
 async def add_notification(request: Request, background_tasks: BackgroundTasks,
                            payload: dict = Body(...)):
     conforms, errors = validate_notification(payload)
