@@ -13,6 +13,8 @@ from db.notifications import get_notifications, get_notifications_collection
 from routers import inbox_router, notification_state_router
 
 templates = Jinja2Templates(directory="templates")
+templates.env.globals['max'] = max
+templates.env.globals['min'] = min
 
 
 def create_app() -> FastAPI:
