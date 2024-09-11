@@ -2,13 +2,13 @@ import uuid
 
 from pymongo import DESCENDING
 
+from config import PAGE_LIMIT
 from db import get_collection
 from db.models import Notification
 
 
 NOTIFICATIONS_COLLECTION_NAME = "notifications"
 NOTIFICATION_STATES_COLLECTION_NAME = "notification_states"
-PAGE_LIMIT = 100
 
 
 class FailedToFindNotificationState(Exception):
@@ -38,12 +38,15 @@ async def get_notification(notification_id: str) -> Notification:
     return notification
 
 
-async def get_notifications() -> list[Notification]:
+async def get_notifications(page: int = 1, page_size: int = PAGE_LIMIT) -> list[Notification]:
     collection = await get_notifications_collection()
+    skip = (page - 1) * page_size
     notifications = await collection \
         .find({}, {"_id": 0}) \
         .sort("updated", DESCENDING) \
-        .to_list(length=PAGE_LIMIT)
+        .skip(skip) \
+        .limit(page_size) \
+        .to_list(length=page_size)
     return notifications
 
 

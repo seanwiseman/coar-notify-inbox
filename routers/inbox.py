@@ -23,7 +23,7 @@ router = APIRouter(
 
 
 def get_inbox_url(request: Request) -> str:
-    return str(request.base_url) + "inbox/"
+    return str(request.base_url) + "inbox"
 
 
 def get_notification_links(notifications: list[Notification], base_url: str) -> list[str]:
