@@ -4,6 +4,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 PAGE_LIMIT = 50
 
+
 class Settings(BaseSettings):
     allowed_admin_origins: set[str] = set()
     allowed_origins: set[str] = set()

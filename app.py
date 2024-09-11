@@ -36,7 +36,8 @@ def create_app() -> FastAPI:
     _app.include_router(notification_state_router)
 
     @_app.get("/")
-    async def home(request: Request, page: int = Query(1, ge=1), page_size: int = Query(PAGE_LIMIT, ge=1)):
+    async def home(request: Request, page: int = Query(1, ge=1),
+                   page_size: int = Query(PAGE_LIMIT, ge=1)):
         def ppjson(value, indent=2):
             return json.dumps({**value, "updated": value["updated"].isoformat()}, indent=indent)
 

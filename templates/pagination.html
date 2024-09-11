@@ -1,0 +1,22 @@
+<!-- pagination.html -->
+<div class="flex mt-2">
+    <a href="/?page=1&page_size={{ page_size }}" class="text-blue-600 p-4">First</a>
+    {% if page > 1 %}
+    <a href="/?page={{ page - 1 }}&page_size={{ page_size }}" class="text-blue-600 p-4">&larr;</a>
+    {% endif %}
+    <div class="flex">
+        {% set start_page = max(1, page - 3) %}
+        {% set end_page = min(total_pages, page + 2) %}
+        {% for p in range(start_page, end_page + 1) %}
+            {% if p == page %}
+                <span class="bg-gray-100 text-blue-600 font-bold border border-gray-200 rounded-lg p-4">{{ p }}</span>
+            {% else %}
+                <a href="/?page={{ p }}&page_size={{ page_size }}" class="text-blue-600 border border-gray-200 rounded-lg p-4">{{ p }}</a>
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% if page < total_pages %}
+    <a href="/?page={{ page + 1 }}&page_size={{ page_size }}" class="text-blue-600 p-4">&rarr;</a>
+    {% endif %}
+    <a href="/?page={{ total_pages }}&page_size={{ page_size }}" class="text-blue-600 p-4">Last</a>
+</div>
