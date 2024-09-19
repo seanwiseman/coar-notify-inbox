@@ -6,7 +6,7 @@ There is an instance of this inbox running at https://coar-notify-inbox.fly.dev 
 
 ## Running the app
 
-### Create a Python virtual environment
+### Running in a Python virtual environment
 ```bash
 python3 -m venv venv
 ``` 
@@ -20,6 +20,19 @@ make install
 ```bash
 make start
 ```
+
+### Running via Docker
+
+### Build the image
+```bash
+docker build -t coar-notify-inbox .
+``` 
+
+### Install dependencies
+```bash
+docker run -p 8080:8080 coar-notify-inbox
+````
+
 ----
 ### Note on running the app outside the local Docker-compose environment
 The app is configured to use MongoDB as its data layer. By default, it will attempt to connect to a MongoDB instance spun up
