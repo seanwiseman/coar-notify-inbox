@@ -19,7 +19,7 @@ def test_read_inbox(mock_get_notifications, client: TestClient):
     assert response.status_code == 200
     assert response.json() == {
         "@context": "http://www.w3.org/ns/ldp",
-        "@id": "http://testserver/inbox/",
+        "@id": "http://testserver/inbox",
         "contains": [],
     }
 

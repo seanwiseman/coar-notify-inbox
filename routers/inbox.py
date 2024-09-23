@@ -73,7 +73,7 @@ async def add_notification(request: Request, background_tasks: BackgroundTasks,
         )
 
     return Response(
-        headers={"Location": f"{get_inbox_url(request)}{notification_id}"},
+        headers={"Location": f"{get_inbox_url(request)}/{notification_id}"},
         status_code=201,
     )
 
