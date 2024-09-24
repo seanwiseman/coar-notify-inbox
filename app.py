@@ -35,6 +35,10 @@ def create_app() -> FastAPI:
     _app.include_router(inbox_router)
     _app.include_router(notification_state_router)
 
+    @_app.get("/health", status_code=200)
+    async def health_check():
+        return {"status": "ok"}
+
     @_app.get("/")
     async def home(request: Request, page: int = Query(1, ge=1),
                    page_size: int = Query(PAGE_LIMIT, ge=1)):
