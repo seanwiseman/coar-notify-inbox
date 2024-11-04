@@ -13,7 +13,6 @@ from config import get_settings
 from db.models import Notification
 from db.notifications import create_notification, get_notifications, get_notification
 from tasks.webhooks import send_notification_to_webhook
-from validation.validate import validate_notification
 
 
 router = APIRouter(
@@ -56,11 +55,6 @@ async def read_inbox(request: Request) -> JSONResponse:
 @router.post("")
 async def add_notification(request: Request, background_tasks: BackgroundTasks,
                            payload: dict = Body(...)):
-    conforms, errors = validate_notification(payload)
-
-    if not conforms:
-        raise HTTPException(status_code=400, detail=errors)
-
     notification = Notification(**payload)
 
     notification_id = await create_notification(notification)

@@ -1,5 +1,7 @@
 from unittest.mock import patch
 
+import pytest
+
 from fastapi.testclient import TestClient
 
 
@@ -54,6 +56,7 @@ def test_read_notification(mock_get_notification,
     assert response.json() == mock_notification
 
 
+@pytest.mark.skip(reason="Skipping until coar_notify_validator is fixed")
 @patch("routers.inbox.create_notification")
 def test_add_notification_validation_failure(mock_create_notification,
                                              invalid_notification_payload: dict,
